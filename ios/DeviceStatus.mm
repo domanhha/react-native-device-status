@@ -1,4 +1,6 @@
 #import "DeviceStatus.h"
+#import <Security/Security.h>
+#import <LocalAuthentication/LAContext.h>
 
 #ifdef RCT_NEW_ARCH_ENABLED
 #import "RNDeviceStatusSpec.h"
@@ -9,14 +11,18 @@ RCT_EXPORT_MODULE()
 
 // Example method
 // See // https://reactnative.dev/docs/native-modules-ios
-RCT_REMAP_METHOD(multiply,
-                 multiplyWithA:(double)a withB:(double)b
-                 withResolver:(RCTPromiseResolveBlock)resolve
-                 withRejecter:(RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(isDeviceSecure:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
-  NSNumber *result = @(a * b);
 
-  resolve(result);
+  NSError *aerr = nil;
+  BOOL canBeProtected = [[LAContext new] canEvaluatePolicy:LAPolicyDeviceOwnerAuthentication error:&aerr];
+
+  if (aerr || !canBeProtected) {
+    return resolve(@(NO));
+  } else {
+    return resolve(@(YES));
+  }
 }
 
 // Don't compile this code when we build for the old architecture.

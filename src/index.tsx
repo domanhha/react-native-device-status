@@ -15,6 +15,6 @@ const DeviceStatus = NativeModules.DeviceStatus  ? NativeModules.DeviceStatus  :
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return DeviceStatus.multiply(a, b);
+export function isDeviceSecure(): Promise<boolean> {
+  return DeviceStatus.isDeviceSecure();
 }

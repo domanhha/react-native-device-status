@@ -9,11 +9,11 @@ npm install react-native-device-status
 ## Usage
 
 ```js
-import { multiply } from "react-native-device-status";
+import { isDeviceSecure } from "react-native-device-status";
 
 // ...
 
-const result = await multiply(3, 7);
+const result = await isDeviceSecure();
 ```
 
 ## Contributing

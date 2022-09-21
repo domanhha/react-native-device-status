@@ -1,18 +1,20 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-device-status';
+import { isDeviceSecure } from 'react-native-device-status';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const [result, setResult] = React.useState<string | undefined>();
 
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    isDeviceSecure().then((res) => {
+      setResult(res ? "Yes" : "No" )
+    });
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text style={styles.text}>Device Security: {result}</Text>
     </View>
   );
 }
@@ -22,10 +24,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: "#fff"
   },
   box: {
     width: 60,
     height: 60,
     marginVertical: 20,
   },
+  text: {
+    color: "#000"
+  }
 });
